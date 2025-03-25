@@ -14,9 +14,11 @@ Your task is to create a simple system to:
 - Track the **licensing status** of each song via a stateful workflow.
 - Provide a way for other users to **immediately see updates** in licensing status (real-time or near real-time visibility).
 
-## ⚙️ Technologies
+## 📌 Requirements
 
-Use the following technologies, aligned with our tech stack:
+### ⚙️ Tech Stack
+
+> ⚡ **Must Include** - Use the following technologies, aligned with our tech stack:
 
 - **Backend:** You can use any stack you're comfortable with, but we recommend using any of the following:
   - TypeScript + NestJS (you can use Fastify or Koa if you prefer)
@@ -28,7 +30,7 @@ Use the following technologies, aligned with our tech stack:
 - **Containerization:** Docker (required)
 - **Bonus:** Kafka, Redis, ArgoCD, Kubernetes (if you want to go further)
 
-## 📦 Deliverables
+### 📦 Deliverables
 
 > 📥 **Your submission must be a Pull Request that includes:**
 
@@ -54,7 +56,7 @@ Use the following technologies, aligned with our tech stack:
 > Use the `docs` folder to store any additional documentation or diagrams that help explain your solution.
 > Mention any assumptions or constraints in your `README.md`.
 
-## 📂 Folder Suggestions
+### 📂 Folder Suggestions
 
 You can organize your project like this (suggested but not mandatory):
 
