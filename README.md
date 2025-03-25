@@ -45,7 +45,7 @@ Your task is to create a simple system to:
   - Visualize the movie scenes and associated tracks.
   - Show licensing status.
   - Allow status updates (basic UI).
-- A proposal to implement **real-time visibility** (e.g., subscriptions, polling, or WebSockets).
+- Suggest a real-time implementation using WebSockets, GraphQL Subscriptions, or Server-Sent Events.
 - Docker setup to run the entire app locally.
 - A `README.md` with:
   - Setup instructions
@@ -86,6 +86,7 @@ You can organize your project like this (suggested but not mandatory):
 
 > 💡 **Bonus Points For:**
 
+- Automated testing and CI pipeline using GitHub Actions.
 - Unit or integration tests for API or key logic.
 - Use of MongoDB for unstructured metadata (if justified).
 - Real-time suggestion implemented (e.g., via GraphQL subscriptions or WebSockets).
