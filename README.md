@@ -12,12 +12,12 @@ Backend system built with NestJS to handle music licensing operations for the fi
 
 ### Tech Stack Decisions
 
-**Framework** NestJS with TypeScript: Type safety, decorator-based architecture, built-in DI container, excellent for enterprise applications
+**Framework** NestJS + TypeScript: Static typing (type safety), 
 **Database** PostgreSQL: ACID compliance, complex queries, enum support, production-ready
 **ORM** TypeORM: Strong TypeScript integration, migration system, relationship management, provides type safety
 **API Style** REST + GraphQL: REST for CRUD operations, GraphQL subscriptions for real-time updates
 **Real-time** GraphQL Subscriptions: great for real-time license status updates
-**Containerization** Docker containers: portability, easy deploys, simplified dependency management, etc
+**Containerization** Docker containers: portability, easy deploys, simplified dependency management
 **Caching** Redis Performance optimization, job queue processing
 
 ## Licensing State Machine
