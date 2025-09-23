@@ -7,6 +7,10 @@ import { LicensingStatus, LICENSING_STATUS_TRANSITIONS } from '../../entities/en
 import { CreateLicenseDto } from './dto/create-license.dto';
 import { UpdateLicenseDto } from './dto/update-license.dto';
 import { UpdateLicenseStatusDto } from './dto/update-license-status.dto';
+import { LicensesResolver } from './licenses.resolver';
+import { LicenseStatusChangedDto } from './dto/license-status-changed.dto';
+import { EmailService } from '../../services/email.service';
+import { CacheService } from '../../services/cache.service';
 
 @Injectable()
 export class LicensesService {
@@ -15,6 +19,8 @@ export class LicensesService {
     private readonly licenseRepository: Repository<License>,
     @InjectRepository(Track)
     private readonly trackRepository: Repository<Track>,
+    private readonly emailService: EmailService,
+    private readonly cacheService: CacheService,
   ) {}
 
   async create(createLicenseDto: CreateLicenseDto): Promise<License> {
@@ -79,6 +85,7 @@ export class LicensesService {
   async updateStatus(id: string, updateStatusDto: UpdateLicenseStatusDto): Promise<License> {
     const license = await this.findOne(id);
     const { status, notes } = updateStatusDto;
+    const oldStatus = license.status;
 
     // Validate status transition
     const allowedTransitions = LICENSING_STATUS_TRANSITIONS[license.status];
@@ -97,7 +104,44 @@ export class LicensesService {
     // Set timestamp for status change
     license.lastStatusChange = new Date();
 
-    return await this.licenseRepository.save(license);
+    const updatedLicense = await this.licenseRepository.save(license);
+
+    // Emit real-time event
+    const statusChangeEvent: LicenseStatusChangedDto = {
+      licenseId: updatedLicense.id,
+      trackId: updatedLicense.track.id,
+      oldStatus,
+      newStatus: status,
+      notes: notes || null,
+      changedAt: updatedLicense.lastStatusChange,
+      trackName: updatedLicense.track.name,
+      songTitle: updatedLicense.track.song.title,
+      songArtist: updatedLicense.track.song.artist,
+      movieTitle: updatedLicense.track.scene.movie.title,
+      sceneName: updatedLicense.track.scene.name,
+    };
+
+    LicensesResolver.publishLicenseStatusChange(statusChangeEvent);
+
+    // Send email notification
+    await this.emailService.sendLicenseStatusChangeNotification({
+      email: updatedLicense.contactEmail || 'licensing@example.com',
+      licenseId: updatedLicense.id,
+      trackId: updatedLicense.track.id,
+      oldStatus,
+      newStatus: status,
+      trackName: updatedLicense.track.name,
+      songTitle: updatedLicense.track.song.title,
+      songArtist: updatedLicense.track.song.artist,
+      movieTitle: updatedLicense.track.scene.movie.title,
+      sceneName: updatedLicense.track.scene.name,
+      contactPerson: updatedLicense.contactPerson,
+    });
+
+    // Invalidate workflow summary cache
+    await this.cacheService.del('workflow-summary');
+
+    return updatedLicense;
   }
 
   async remove(id: string): Promise<void> {
@@ -106,6 +150,15 @@ export class LicensesService {
   }
 
   async getWorkflowSummary(): Promise<Record<LicensingStatus, number>> {
+    const cacheKey = 'workflow-summary';
+
+    // Try to get from cache first
+    const cached = await this.cacheService.get<Record<LicensingStatus, number>>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // If not in cache, fetch from database
     const counts = await this.licenseRepository
       .createQueryBuilder('license')
       .select('license.status', 'status')
@@ -121,6 +174,9 @@ export class LicensesService {
     counts.forEach(({ status, count }) => {
       summary[status] = parseInt(count);
     });
+
+    // Cache for 5 minutes
+    await this.cacheService.set(cacheKey, summary, 300);
 
     return summary;
   }

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Music Licensing API is running! 🎵';
+    return 'Music Licensing API is running!';
   }
 
   getHealth() {

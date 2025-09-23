@@ -52,7 +52,6 @@ export class SongsService {
       .createQueryBuilder('song')
       .where('song.title ILIKE :query', { query: `%${query}%` })
       .orWhere('song.artist ILIKE :query', { query: `%${query}%` })
-      .orWhere('song.album ILIKE :query', { query: `%${query}%` })
       .getMany();
   }
 }

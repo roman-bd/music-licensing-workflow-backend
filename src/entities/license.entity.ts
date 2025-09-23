@@ -42,9 +42,6 @@ export class License extends BaseEntity {
   @Column({ type: 'timestamptz', nullable: true })
   lastStatusChange?: Date;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  changedBy?: string;
-
   @Column({ type: 'uuid' })
   trackId: string;
 

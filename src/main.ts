@@ -24,7 +24,7 @@ async function bootstrap() {
 
   // Swagger documentation
   const config = new DocumentBuilder()
-    .setTitle('Music Licensing API')
+    .setTitle('Music Licensing API - Backend challenge')
     .setDescription('API for managing music licensing workflow')
     .setVersion('1.0')
     .addTag('movies', 'Movie management')
@@ -39,9 +39,10 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`🚀 Application is running on: http://localhost:${port}`);
-  console.log(`📚 Swagger docs available at: http://localhost:${port}/api/docs`);
-  console.log(`🎮 GraphQL playground at: http://localhost:${port}/graphql`);
+  
+  console.log(`App backend is running on: http://localhost:${port}`);
+  console.log(`Swagger docs at: http://localhost:${port}/api/docs`);
+  console.log(`GraphQL playground at: http://localhost:${port}/graphql`);
 }
 
 bootstrap();

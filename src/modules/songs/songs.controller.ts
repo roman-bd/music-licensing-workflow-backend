@@ -33,7 +33,7 @@ export class SongsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all songs or search songs' })
-  @ApiQuery({ name: 'search', required: false, description: 'Search in title, artist, or album' })
+  @ApiQuery({ name: 'search', required: false, description: 'Search in title or artist' })
   @ApiResponse({
     status: 200,
     description: 'List of songs',
