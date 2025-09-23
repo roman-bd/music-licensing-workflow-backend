@@ -1,18 +1,9 @@
 # Music Licensing Workflow - Backend
 
-A NestJS-based backend system for managing music licensing process in movie production. Built for the fictional company ACME BROS PICTURES.
+Backend system built with NestJS to handle music licensing operations for the fictional company ACME BROS PICTURES.
 
-## Architecture Overview
 
-This system implements a domain-driven design with clear separation of concerns:
-
-```
-Movies → Scenes → Tracks → Songs
-                    ↓
-                 Licenses (with workflow state machine)
-```
-
-### Core Entities
+### Main Entities
 - Movie
 - Scene
 - Track
@@ -26,12 +17,12 @@ Movies → Scenes → Tracks → Songs
 **ORM** TypeORM: Strong TypeScript integration, migration system, relationship management, provides type safety
 **API Style** REST + GraphQL: REST for CRUD operations, GraphQL subscriptions for real-time updates
 **Real-time** GraphQL Subscriptions: great for real-time license status updates
-**Containerization** Docker Compose Consistent development environment, easy service orchestration
+**Containerization** Docker containers: portability, easy deploys, simplified dependency management, etc
 **Caching** Redis Performance optimization, job queue processing
 
-## Licensing Workflow State Machine
+## Licensing State Machine
 
-The system implements a strict state machine for license management:
+The app implements a strict state machine for license management:
 
 ```
 PENDING → IN_REVIEW → NEGOTIATING → APPROVED
