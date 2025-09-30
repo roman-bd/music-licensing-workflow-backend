@@ -45,6 +45,8 @@ REJECTED  REJECTED    REJECTED    EXPIRED
 
 ### Environment Setup
 
+**Note**: The backend runs locally for development, while supporting services (PostgreSQL, Redis, Adminer) run in Docker containers.
+
 1. **Clone and configure environment:**
 ```bash
 git clone <repository-url>
@@ -52,13 +54,12 @@ cd music-licensing-workflow-backend
 cp .env.example .env
 ```
 
-2. **Install dependencies and build:**
+2. **Install dependencies:**
 ```bash
 npm install
-npm run build
 ```
 
-3. **Start infrastructure:**
+3. **Start Docker services** (PostgreSQL, Redis, Adminer):
 ```bash
 docker-compose up -d
 ```
@@ -68,7 +69,7 @@ docker-compose up -d
 npm run seed
 ```
 
-5. **Start development server:**
+5. **Start backend development server** (runs locally, not in Docker):
 ```bash
 npm run start:dev
 ```
