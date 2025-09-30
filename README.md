@@ -52,15 +52,15 @@ cd music-licensing-workflow-backend
 cp .env.example .env
 ```
 
-2. **Start infrastructure:**
-```bash
-docker-compose up -d
-```
-
-3. **Install dependencies and build:**
+2. **Install dependencies and build:**
 ```bash
 npm install
 npm run build
+```
+
+3. **Start infrastructure:**
+```bash
+docker-compose up -d
 ```
 
 4. **Seed database with test data:**
